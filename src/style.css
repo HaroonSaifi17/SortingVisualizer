@@ -1,0 +1,13 @@
+#container {
+  display: flex;
+  height: 82vh;
+  justify-content: space-around;
+}
+
+#container>div {
+  background: #4c566a;
+}
+
+body {
+  background: black;
+}
