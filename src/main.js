@@ -1,22 +1,37 @@
 import "./style.css";
-import { initializeScreen, changeSpeed, reset } from "./core";
-import bubbleSort from "./bubble-sort";
+import { visualizer } from "./utils/visualizer.js";
+import { bubbleSort } from "./algorithms/bubbleSort.js";
+import { insertionSort } from "./algorithms/insertionSort.js";
+import { quickSort } from "./algorithms/quickSort.js";
+import { mergeSort } from "./algorithms/mergeSort.js";
+import { heapSort } from "./algorithms/heapSort.js";
+import { selectionSort } from "./algorithms/selectionSort.js";
+import { shellSort } from "./algorithms/shellSort.js";
 
-initializeScreen();
+visualizer.initialize("container");
 
-function changeSize($event) {
-  length = $event.target.value;
-  initializeScreen(length);
-}
+document.getElementById("sizeRange").addEventListener("input", (e) => {
+  visualizer.updateSize(parseInt(e.target.value));
+});
 
-const sizeRange = document.querySelector("#sizeRange");
-sizeRange.addEventListener("input", changeSize);
+document.getElementById("speedRange").addEventListener("input", (e) => {
+  visualizer.updateSpeed(parseFloat(e.target.value));
+});
 
-const bubbleSortButton = document.querySelector("#bubble-sort");
-bubbleSortButton.addEventListener("click", () => bubbleSort());
+document.getElementById("reset").addEventListener("click", () => {
+  visualizer.reset();
+});
 
-const speedRange = document.querySelector("#speedRange");
-speedRange.addEventListener("input", changeSpeed);
+const sortingAlgorithms = {
+  "bubble-sort": bubbleSort,
+  "insertion-sort": insertionSort,
+  "quick-sort": quickSort,
+  "merge-sort": mergeSort,
+  "heap-sort": heapSort,
+  "selection-sort": selectionSort,
+  "shell-sort": shellSort,
+};
 
-const resetButton = document.querySelector("#reset");
-resetButton.addEventListener("click", reset);
+Object.entries(sortingAlgorithms).forEach(([id, algorithm]) => {
+  document.getElementById(id).addEventListener("click", algorithm);
+});

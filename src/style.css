@@ -1,13 +1,19 @@
 body {
   display: flex;
   flex-direction: column;
-  height: 100svh;
-  overflow: hidden;
+  min-height: 100svh;
   background: black;
+  margin: 0;
+  padding: 20px;
 }
 
 .control-box {
-  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
 }
 
 #container {
@@ -15,17 +21,12 @@ body {
   height: 78svh;
   justify-content: space-around;
   border-top: 1px solid gray;
+  margin-top: 20px;
 }
 
-#container>div {
+#container > div {
   background: #4c566a;
-}
-
-.control-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+  transition: height 0.1s ease-in-out;
 }
 
 .control-item {
@@ -34,9 +35,17 @@ body {
   gap: 8px;
 }
 
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
 label {
   font-size: 1rem;
   color: white;
+  text-align: center;
 }
 
 input[type="range"] {
@@ -69,8 +78,34 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s;
+  white-space: nowrap;
 }
 
 button:hover {
   background: #2980b9;
+}
+
+button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .control-box {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  input[type="range"] {
+    width: 100%;
+  }
 }
