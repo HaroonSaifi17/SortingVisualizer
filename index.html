@@ -1,13 +1,27 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="container"></div>
-    <script  type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+
+<body>
+  <div class="control-box">
+    <div class="control-item">
+      <label for="sizeRange">Size:</label>
+      <input id="sizeRange" type="range" min="10" max="100" value="50" />
+      <label for="speedRange">Speed:</label>
+      <input id="speedRange" type="range" min="0.0001" max="5000" value="4500" />
+    </div>
+    <button id="bubble-sort">Bubble Sort</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <div id="container"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
