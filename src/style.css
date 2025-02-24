@@ -1,7 +1,6 @@
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
   background: black;
   margin: 0;
   padding: 20px;
@@ -13,20 +12,17 @@ body {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 20px;
 }
 
 #container {
   display: flex;
-  height: 78svh;
   justify-content: space-around;
-  border-top: 1px solid gray;
-  margin-top: 20px;
+  border-top: 10px solid darkgray;
+  margin: 20px 0;
 }
 
-#container > div {
+#container>div {
   background: #4c566a;
-  transition: height 0.1s ease-in-out;
 }
 
 .control-item {
@@ -90,7 +86,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 568px) {
   .control-box {
     flex-direction: column;
     gap: 15px;
@@ -108,4 +104,20 @@ button:disabled {
   input[type="range"] {
     width: 100%;
   }
+}
+
+#reset {
+  background: red;
+}
+.control-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.control-item label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: center;
+  color: white;
 }

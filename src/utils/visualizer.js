@@ -1,4 +1,4 @@
-import { INITIAL_VALUES } from "./constants.js";
+import { INITIAL_VALUES, SOUND } from "./constants.js";
 
 class Visualizer {
   constructor() {
@@ -7,11 +7,38 @@ class Visualizer {
     this.length = INITIAL_VALUES.SIZE;
     this.container = null;
     this.isRunning = false;
+    this.soundEnabled = SOUND.ENABLED;
+    this.swapSound = new Audio(SOUND.SWAP_SOUND);
   }
 
   initialize(containerId) {
     this.container = document.getElementById(containerId);
     this.generateArray();
+    this.setupSoundControl();
+  }
+
+  setupSoundControl() {
+    const soundControl = document.createElement("div");
+    soundControl.className = "control-item";
+
+    const label = document.createElement("label");
+    label.htmlFor = "soundToggle";
+    label.textContent = "Sound:";
+
+    const toggle = document.createElement("input");
+    toggle.type = "checkbox";
+    toggle.id = "soundToggle";
+    toggle.checked = this.soundEnabled;
+    toggle.addEventListener("change", (e) => {
+      this.soundEnabled = e.target.checked;
+    });
+
+    soundControl.appendChild(label);
+    soundControl.appendChild(toggle);
+
+    const controlBox = document.querySelector(".control-box");
+    const speedControl = document.querySelector("#speedRange").parentElement;
+    controlBox.insertBefore(soundControl, speedControl.nextSibling);
   }
 
   generateArray() {
@@ -32,24 +59,43 @@ class Visualizer {
   createBar(height) {
     const element = document.createElement("div");
     element.style.height = height + "vh";
-    element.style.width = 80 / this.length + "vw";
+    element.style.width = 70 / this.length + "vw";
     this.container.appendChild(element);
   }
 
   async delay() {
-    return new Promise((resolve) => setTimeout(resolve, this.speed));
+    return new Promise((resolve) =>
+      setTimeout(() => {
+        if (this.soundEnabled) {
+          try {
+            const soundClone = this.swapSound.cloneNode();
+            soundClone.volume = 0.01;
+            soundClone.currentTime = 0;
+            soundClone.play().catch(console.error);
+          } catch (error) {
+            console.error("Error playing sound:", error);
+          }
+        }
+
+        return resolve();
+      }, this.speed),
+    );
   }
 
   updateSpeed(value) {
     const minSpeed = 0.0001;
     const maxSpeed = 200;
     const normalizedValue = value / 5000;
-
     const a = minSpeed;
     const b = Math.log(maxSpeed / minSpeed);
-
     this.speed = a * Math.exp(b * normalizedValue);
-    console.log(this.speed);
+
+    if (this.soundEnabled) {
+      this.swapSound.playbackRate = Math.max(
+        0.5,
+        Math.min(4.0, 1 / (this.speed / 50)),
+      );
+    }
   }
 
   updateSize(value) {
@@ -69,7 +115,7 @@ class Visualizer {
     }
   }
 
-  swap(i, j) {
+  async swap(i, j) {
     [this.array[i], this.array[j]] = [this.array[j], this.array[i]];
     this.updateBar(i, this.array[i]);
     this.updateBar(j, this.array[j]);
